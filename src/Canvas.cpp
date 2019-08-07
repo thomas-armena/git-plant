@@ -3,6 +3,10 @@
 #include <math.h>
 #include <vector>
 
+float sigmoid(float x){
+    return 1 / (1+std::exp(-x));
+}
+
 Canvas::Canvas(int width, int height) {
     Canvas::width = width;
     Canvas::height = height;
@@ -26,10 +30,15 @@ void Canvas::draw_branch (int x, int y, float curr_slope, Branch branch){
     float slope = branch.get_slope()+curr_slope;
     deltaY = std::sqrt(1/(1+std::pow(slope, 2)));
     deltaX = slope * deltaY;
+
+    float width = 3;
+    width = width - ( width / 1.5 ) * sigmoid(slope);
+
     for(int i = 0; i < branch.get_height(); i++){
         currX += deltaX;
         currY -= deltaY;
-        Canvas::pixels[int(currY)][int(currX)] = 'x';
+        Canvas::pixels[int(currY-deltaX*width)][int(currX-deltaY*width)] = 'x';
+        Canvas::pixels[int(currY+deltaX*width)][int(currX+deltaY*width)] = 'x';
     }
 
     std::vector<Branch> branch_children = branch.get_children();
