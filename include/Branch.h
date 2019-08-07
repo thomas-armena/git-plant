@@ -12,6 +12,7 @@ public:
     int get_height();
     int get_z_index();
     float get_slope();
+    void add_child(Branch);
     std::vector<Branch> get_children();
 };
 
