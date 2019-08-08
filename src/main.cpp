@@ -18,6 +18,7 @@ int main(){
     branch2.add_child(branch3);
 
     myCanvas.draw_branch(25, 30, 0, branch2);
+    //myCanvas.draw_branch(25, 30, 0, Branch(10, 1, -10));
     myCanvas.print();
     return 0;
 }

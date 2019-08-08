@@ -32,13 +32,13 @@ void Canvas::draw_branch (int x, int y, float curr_slope, Branch branch){
     deltaX = slope * deltaY;
 
     float width = 3;
-    width = width - ( width / 1.5 ) * sigmoid(slope);
+    width = width - ( width / 1.5 ) * sigmoid(std::abs(slope));
 
     for(int i = 0; i < branch.get_height(); i++){
         currX += deltaX;
         currY -= deltaY;
-        Canvas::pixels[int(currY-deltaX*width)][int(currX-deltaY*width)] = 'x';
-        Canvas::pixels[int(currY+deltaX*width)][int(currX+deltaY*width)] = 'x';
+        Canvas::pixels[int(std::round(currY-deltaX*width))][int(std::round(currX-deltaY*width))] = 'x';
+        Canvas::pixels[int(std::round(currY+deltaX*width))][int(std::round(currX+deltaY*width))] = 'x';
     }
 
     std::vector<Branch> branch_children = branch.get_children();
