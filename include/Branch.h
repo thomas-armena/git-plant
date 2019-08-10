@@ -4,14 +4,14 @@
 #include <vector>
 
 class Branch {
-    int height, z_index;
+    int height, width;
     float slope;
     float placement;
     std::vector<Branch> children;
 public:
-    Branch(int height, int z_index, float slope, float placement);
+    Branch(int height, int width, float slope, float placement);
     int get_height();
-    int get_z_index();
+    int get_width();
     float get_slope();
     float get_placement();
     void add_child(Branch);
