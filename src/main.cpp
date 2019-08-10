@@ -4,21 +4,12 @@
 
 int main(){
     Canvas myCanvas (100, 40);
-
-    Branch branch3 (8, 1, -0.2);
-    branch3.add_child(Branch( 4, 1, 1 ));
-    branch3.add_child(Branch( 6, 1, -1 ));
-
-    Branch branch (10, 1, 3);
-    branch.add_child(Branch(10, 1, -3));
-    branch.add_child(Branch(10, 1, -1));
-
-    Branch branch2 (4, 1, 0);
-    branch2.add_child(branch);
-    branch2.add_child(branch3);
-
-    myCanvas.draw_branch(25, 30, 0, branch2);
-    //myCanvas.draw_branch(25, 30, 0, Branch(10, 1, -10));
+    Branch rootBranch (20, 0, 1, 1);
+    Branch childBranch1 (10, 0, -2, 0.5);
+    Branch childBranch2 (10, 0, 1, 1);
+    childBranch1.add_child(childBranch2);
+    rootBranch.add_child(childBranch1);
+    myCanvas.draw_branch(25, 30, 0, rootBranch);
     myCanvas.print();
     return 0;
 }
