@@ -34,9 +34,6 @@ void Canvas::draw_branch (int x, int y, float curr_slope, Branch branch){
     int width = normalize_width(slope, branch.get_width());
     int height = normalize_height(slope, branch.get_height());
 
-    std::cout << width << "x" << height << std::endl;
-
-
     std::vector<Branch> branch_children = branch.get_children();
     std::vector<std::vector<Branch>> branchesAtHeight;
     for (int i = 0; i < height; i++){
@@ -62,19 +59,33 @@ void Canvas::draw_branch (int x, int y, float curr_slope, Branch branch){
     else pixel = ':';
 
     for(int i = 0; i < height; i++){
-        float leftX = int(std::round(currY-deltaX*width));
-        float leftY = int(std::round(currX-deltaY*width));
-        float rightX = int(std::round(currY+deltaX*width));
-        float rightY = int(std::round(currX+deltaY*width));
+        int leftX = int(std::round(currX-deltaY*width));
+        int leftY = int(std::round(currY-deltaX*width));
+        int rightX = int(std::round(currX+deltaY*width));
+        int rightY = int(std::round(currY+deltaX*width));
 
-        Canvas::pixels[leftX][leftY] = pixel;
-        Canvas::pixels[rightX][rightY] = pixel;
+        Canvas::pixels[leftY][leftX] = pixel;
+        Canvas::pixels[rightY][rightX] = pixel;
 
         for(int k = 0; k < branchesAtHeight[i].size(); k++){
-            draw_branch(int(currX), int(currY), slope, branchesAtHeight[i][k]);
+            Branch child_branch = branchesAtHeight[i][k];
+            int childX, childY;
+            if (i == height - 1){
+                childX = int(currX);
+                childY = int(currY);
+            } else if (child_branch.get_slope() < 0){
+                childX = leftX;
+                childY = leftY;
+            } else {
+                childX = rightX;
+                childY = rightY;
+            }
+            draw_branch(childX, childY, slope, child_branch);
         }
         currX += deltaX;
         currY -= deltaY;
+        if (currX <= 0 || currX >= Canvas::width) break;
+        if (currY <= 0 || currY >= Canvas::height) break;
     }
 }
 
