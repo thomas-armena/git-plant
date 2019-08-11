@@ -3,7 +3,7 @@
 #include "Canvas.h"
 
 int main(){
-    Canvas myCanvas (200, 80);
+    Canvas myCanvas (50, 50);
 
     Branch rootBranch (20, 4, 0, 1);
 
@@ -23,7 +23,7 @@ int main(){
 
     rootBranch.add_child(childBranch1);
 
-    myCanvas.draw_branch(50, 40, 0, rootBranch);
+    myCanvas.draw_branch(20, 49, 0, rootBranch);
     myCanvas.print();
     return 0;
 }

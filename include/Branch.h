@@ -16,6 +16,7 @@ public:
     float get_placement();
     void add_child(Branch);
     std::vector<Branch> get_children();
+    std::vector<Branch> get_children_at_height(int);
 };
 
 #endif

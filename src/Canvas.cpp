@@ -13,6 +13,11 @@ int normalize_height(float slope, int height){
     return int(std::round(height + ( height * 1.33 ) * a));
 }
 
+char get_pixel(float slope) {
+    if (std::abs( slope > 1)) return '.';
+    else return ':';
+}
+
 Canvas::Canvas(int width, int height) {
     Canvas::width = width;
     Canvas::height = height;
@@ -26,37 +31,22 @@ Canvas::Canvas(int width, int height) {
 }
 
 void Canvas::draw_pixel (int x, int y, char pixel) {
+    if (x < 0 || x >= Canvas::width) return;
+    if (y < 0 || y >= Canvas::height) return;
     Canvas::pixels[y][x] = pixel;
 }
 
 void Canvas::draw_branch (int x, int y, float curr_slope, Branch branch){
+
     float slope = branch.get_slope()+curr_slope;
     int width = normalize_width(slope, branch.get_width());
     int height = normalize_height(slope, branch.get_height());
-
-    std::vector<Branch> branch_children = branch.get_children();
-    std::vector<std::vector<Branch>> branchesAtHeight;
-    for (int i = 0; i < height; i++){
-        std::vector<Branch> branches;
-        for(int k = 0; k < branch_children.size(); k++){
-            Branch child_branch = branch_children[k];
-            int height_ind = int(std::round( height * child_branch.get_placement() )) - 1;
-            if (height_ind == i){
-                branches.push_back(child_branch);
-            }
-        }
-        branchesAtHeight.push_back(branches);
-    }
+    char pixel = get_pixel(slope);
 
     float currX = x;
     float currY = y;
-    float deltaX, deltaY;
-    deltaY = std::sqrt(1/(1+std::pow(slope, 2)));
-    deltaX = slope * deltaY;
-
-    char pixel;
-    if (std::abs( slope > 1)) pixel = '.';
-    else pixel = ':';
+    float deltaY = std::sqrt(1/(1+std::pow(slope, 2)));
+    float deltaX = slope * deltaY;
 
     for(int i = 0; i < height; i++){
         int leftX = int(std::round(currX-deltaY*width));
@@ -64,15 +54,17 @@ void Canvas::draw_branch (int x, int y, float curr_slope, Branch branch){
         int rightX = int(std::round(currX+deltaY*width));
         int rightY = int(std::round(currY+deltaX*width));
 
-        Canvas::pixels[leftY][leftX] = pixel;
-        Canvas::pixels[rightY][rightX] = pixel;
+        draw_pixel(leftX, leftY, pixel);
+        draw_pixel(rightX, rightY, pixel);
 
-        for(int k = 0; k < branchesAtHeight[i].size(); k++){
-            Branch child_branch = branchesAtHeight[i][k];
+        std::vector<Branch> branches_at_curr_height = branch.get_children_at_height(i);
+
+        for(int k = 0; k < branches_at_curr_height.size(); k++){
+            Branch child_branch = branches_at_curr_height[k];
             int childX, childY;
             if (i == height - 1){
-                childX = int(currX);
-                childY = int(currY);
+                childX = currX;
+                childY = currY;
             } else if (child_branch.get_slope() < 0){
                 childX = leftX;
                 childY = leftY;
@@ -84,8 +76,6 @@ void Canvas::draw_branch (int x, int y, float curr_slope, Branch branch){
         }
         currX += deltaX;
         currY -= deltaY;
-        if (currX <= 0 || currX >= Canvas::width) break;
-        if (currY <= 0 || currY >= Canvas::height) break;
     }
 }
 
