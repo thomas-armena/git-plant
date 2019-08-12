@@ -9,6 +9,13 @@ Branch::Branch(int height, int width, float slope, float placement){
     Branch::placement = placement;
 }
 
+Branch::Branch(){
+    Branch::height = 1;
+    Branch::width = 0;
+    Branch::slope = 0;
+    Branch::placement = 0;
+}
+
 void Branch::add_child(Branch child_branch){
     Branch::children.push_back(child_branch);
 }
@@ -25,6 +32,21 @@ std::vector<Branch> Branch::get_children_at_height(int height_ind){
     return branches;
 }
 
+void Branch::set_width( int width ) { 
+    Branch::width = width;
+}
+
+void Branch::set_height( int height ) { 
+    Branch::height = height;
+}
+
+void Branch::set_slope( float slope ) {
+    Branch::slope = slope;
+}
+
+void Branch::set_placement( float placement ) {
+    Branch::placement = placement;
+}
 
 int Branch::get_height(){ return Branch::height; }
 int Branch::get_width(){ return Branch::width; }
