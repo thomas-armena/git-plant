@@ -9,6 +9,10 @@ Tree::Tree( Branch branch ){
     Tree::root_branch = branch;
 }
 
-void Tree::grow( int factor ){
+Branch Tree::get_root_branch(){
+    return Tree::root_branch;
+}
 
+void Tree::grow( int factor ){
+    Tree::root_branch.set_height( Tree::root_branch.get_height() + factor);
 }

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Canvas.h"
+#include "Tree.h"
 #include <math.h>
 #include <vector>
 
@@ -77,6 +78,15 @@ void Canvas::draw_branch (int x, int y, float curr_slope, Branch branch){
         currX += deltaX;
         currY -= deltaY;
     }
+}
+
+void Canvas::draw_tree(Tree tree){
+    this->draw_branch(
+        Canvas::width / 2, 
+        Canvas::height - 1, 
+        0,
+        tree.get_root_branch()
+    );
 }
 
 void Canvas::print () {
