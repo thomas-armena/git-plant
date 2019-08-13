@@ -2,17 +2,17 @@
 #include <vector>
 #include <math.h>
 
-Branch::Branch(int height, int width, float slope, float placement){
+Branch::Branch(int height, int width, float angle, float placement){
     Branch::height = height;
     Branch::width = width;
-    Branch::slope = slope;
+    Branch::angle = angle;
     Branch::placement = placement;
 }
 
 Branch::Branch(){
     Branch::height = 1;
     Branch::width = 0;
-    Branch::slope = 0;
+    Branch::angle = 0;
     Branch::placement = 0;
 }
 
@@ -40,8 +40,8 @@ void Branch::set_height( int height ) {
     Branch::height = height;
 }
 
-void Branch::set_slope( float slope ) {
-    Branch::slope = slope;
+void Branch::set_angle( float angle ) {
+    Branch::angle = angle;
 }
 
 void Branch::set_placement( float placement ) {
@@ -50,6 +50,6 @@ void Branch::set_placement( float placement ) {
 
 int Branch::get_height(){ return Branch::height; }
 int Branch::get_width(){ return Branch::width; }
-float Branch::get_slope(){ return Branch::slope; }
+float Branch::get_angle(){ return Branch::angle; }
 float Branch::get_placement(){ return Branch::placement; }
 std::vector<Branch> Branch::get_children(){ return Branch::children; }

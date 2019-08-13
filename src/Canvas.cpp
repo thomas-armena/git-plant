@@ -3,6 +3,7 @@
 #include "Tree.h"
 #include <math.h>
 #include <vector>
+#include <cmath>
 
 int normalize_width(float slope, int width){
     float a = 2 / (1+std::exp(-std::abs(slope))) - 1;
@@ -11,7 +12,7 @@ int normalize_width(float slope, int width){
 
 int normalize_height(float slope, int height){
     float a = 2 / (1+std::exp(-std::abs(slope))) - 1;
-    return int(std::round(height + ( height * 1.33 ) * a));
+    return int(std::round(height + ( height ) * a));
 }
 
 char get_pixel(float slope) {
@@ -37,16 +38,25 @@ void Canvas::draw_pixel (int x, int y, char pixel) {
     Canvas::pixels[y][x] = pixel;
 }
 
-void Canvas::draw_branch (int x, int y, float curr_slope, Branch branch){
+void Canvas::draw_branch (int x, int y, float curr_angle, Branch branch){
 
-    float slope = branch.get_slope()+curr_slope;
+    int deltaY_multiplier = 1;
+
+    float angle = (branch.get_angle()+curr_angle);
+    angle = std::fmod(angle, M_PI*2);
+
+    if (angle > M_PI / 2 && angle < M_PI * 3 / 2){
+        deltaY_multiplier = -1;
+    }
+    float slope = std::tan(angle);
+    std::cout << angle << "->" << slope << std::endl;
     int width = normalize_width(slope, branch.get_width());
     int height = normalize_height(slope, branch.get_height());
     char pixel = get_pixel(slope);
 
     float currX = x;
     float currY = y;
-    float deltaY = std::sqrt(1/(1+std::pow(slope, 2)));
+    float deltaY = std::sqrt(1/(1+std::pow(slope, 2))) * deltaY_multiplier;
     float deltaX = slope * deltaY;
 
     for(int i = 0; i < height; i++){
@@ -66,7 +76,7 @@ void Canvas::draw_branch (int x, int y, float curr_slope, Branch branch){
             if (i == height - 1){
                 childX = currX;
                 childY = currY;
-            } else if (child_branch.get_slope() < 0){
+            } else if (child_branch.get_angle() < 0){
                 childX = leftX;
                 childY = leftY;
             } else {

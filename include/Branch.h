@@ -5,19 +5,19 @@
 
 class Branch {
     int height, width;
-    float slope;
+    float angle;
     float placement;
     std::vector<Branch> children;
 public:
-    Branch(int height, int width, float slope, float placement);
+    Branch(int height, int width, float angle, float placement);
     Branch();
     int get_height();
     int get_width();
-    float get_slope();
+    float get_angle();
     float get_placement();
     void set_height(int height);
     void set_width(int width);
-    void set_slope(float slope);
+    void set_angle(float angle);
     void set_placement(float placement);
     void add_child(Branch);
     std::vector<Branch> get_children();
