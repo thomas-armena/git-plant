@@ -11,7 +11,7 @@ public:
     Tree(Branch root_branch);
     Tree();
     Branch get_root_branch();
-    void grow(int factor);
+    void grow(float factor);
 };
 
 #endif

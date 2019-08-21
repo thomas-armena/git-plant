@@ -1,5 +1,6 @@
 #include "Tree.h"
 #include "Branch.h"
+#include <vector>
 
 Tree::Tree (){
     Tree::root_branch = Branch(3, 0, 0, 0);
@@ -13,6 +14,15 @@ Branch Tree::get_root_branch(){
     return Tree::root_branch;
 }
 
-void Tree::grow( int factor ){
-    Tree::root_branch.set_height( Tree::root_branch.get_height() + factor);
+void grow_branch_and_children( Branch branch, float factor ){
+    branch.grow(factor);
+    std::vector<Branch> branch_children = branch.get_children();
+    for(int i = 0; i < branch_children.size(); i++){
+        grow_branch_and_children(branch_children[i], factor);
+    }
+
+}
+
+void Tree::grow(float factor){
+    grow_branch_and_children(Tree::root_branch, factor);
 }
