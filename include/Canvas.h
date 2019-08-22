@@ -12,6 +12,7 @@ public:
     void draw_pixel(int, int, char);
     void draw_branch(int x, int y, float angle, Branch branch);
     void draw_tree(Tree tree);
+    void clear();
     void print();
 };
 

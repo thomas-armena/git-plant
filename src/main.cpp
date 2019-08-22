@@ -4,7 +4,7 @@
 #include "Canvas.h"
 #include <cmath>
 
-int main(){
+void test_angles(){
     Canvas canvas (50, 50);
     float angle = 0;
     while(true){
@@ -14,16 +14,25 @@ int main(){
         canvas.print();
         angle += M_PI / 16;
     }
+}
+
+int main(){
     
+    Canvas canvas (50, 50);
+    Branch root_branch (0.5, 0.05, 0, 0);
+    Branch child_branch_1 (0.25, 0.025, M_PI / 6, 0.3);
+    Branch child_branch_2 (0.2, 0.013, -M_PI / 6, 0.6);
+    root_branch.add_child(&child_branch_1);
+    root_branch.add_child(&child_branch_2);
+    Tree tree(root_branch);
 
-    // Tree tree;
-    // while(true){
-    //     std::cin.get();
-    //     tree.grow(1);
-    //     canvas.draw_tree(tree);
-    //     canvas.print();
-    // }
+    while(true){
+        canvas.clear();
+        std::cin.get();
+        tree.grow(1);
+        canvas.draw_tree(tree);
+        canvas.print();
+    }
 
-    // canvas.print();
     return 0;
 }

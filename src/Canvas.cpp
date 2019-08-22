@@ -5,6 +5,19 @@
 #include <vector>
 #include <cmath>
 
+std::vector<std::vector<char>> get_empty_pixels(int width, int height){
+    std::vector<std::vector<char>> canvas;
+    for(int y = 0; y < height; y++) {
+        std::vector<char> new_row;
+        for(int x = 0; x < width; x++) {
+            new_row.push_back(' ');
+        }
+        canvas.push_back(new_row);
+    }
+    return canvas;
+
+}
+
 int normalize_width(float slope, int width){
     float a = 2 / (1+std::exp(-std::abs(slope))) - 1;
     return int(std::round(width - ( width * 0.66 ) * a));
@@ -23,13 +36,7 @@ char get_pixel(float slope) {
 Canvas::Canvas(int width, int height) {
     Canvas::width = width;
     Canvas::height = height;
-    for(int y = 0; y < Canvas::height; y++) {
-        std::vector<char> newRow;
-        for(int x = 0; x < width; x++) {
-            newRow.push_back(' ');
-        }
-        Canvas::pixels.push_back(newRow);
-    }
+    Canvas::pixels = get_empty_pixels(width, height);
 }
 
 void Canvas::draw_pixel (int x, int y, char pixel) {
@@ -49,7 +56,7 @@ void Canvas::draw_branch (int x, int y, float curr_angle, Branch branch){
         deltaY_multiplier = -1;
     }
     float slope = std::tan(angle);
-    std::cout << angle << "->" << slope << std::endl;
+    std::cout << branch.get_height() << std::endl;
     int width = normalize_width(slope, branch.get_width());
     int height = normalize_height(slope, branch.get_height());
     char pixel = get_pixel(slope);
@@ -68,10 +75,10 @@ void Canvas::draw_branch (int x, int y, float curr_angle, Branch branch){
         draw_pixel(leftX, leftY, pixel);
         draw_pixel(rightX, rightY, pixel);
 
-        std::vector<Branch> branches_at_curr_height = branch.get_children_at_height(i);
+        std::vector<Branch*> branches_at_curr_height = branch.get_children_at_height(i);
 
         for(int k = 0; k < branches_at_curr_height.size(); k++){
-            Branch child_branch = branches_at_curr_height[k];
+            Branch child_branch = *branches_at_curr_height[k];
             int childX, childY;
             if (i == height - 1){
                 childX = currX;
@@ -97,6 +104,10 @@ void Canvas::draw_tree(Tree tree){
         0,
         tree.get_root_branch()
     );
+}
+
+void Canvas::clear () {
+    Canvas::pixels = get_empty_pixels(Canvas::width, Canvas::height);
 }
 
 void Canvas::print () {
