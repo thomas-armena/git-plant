@@ -14,15 +14,16 @@ Branch Tree::get_root_branch(){
     return Tree::root_branch;
 }
 
-void grow_branch_and_children( Branch* branch, float factor ){
-    branch->grow(factor);
-    std::vector<Branch*> branch_children = branch->get_children();
-    for(int i = 0; i < branch_children.size(); i++){
-        grow_branch_and_children(branch_children[i], factor);
-    }
-
-}
+//void grow_branch_and_children( Branch* branch, float factor ){
+//    std::vector<Branch*> branch_children = branch->get_children();
+//    for(int i = 0; i < branch_children.size(); i++){
+//        grow_branch_and_children(branch_children[i], factor);
+//    }
+//    branch->grow(factor);
+//
+//}
 
 void Tree::grow(float factor){
-    grow_branch_and_children(&( Tree::root_branch ), factor);
+    Tree::root_branch.grow(factor);
+    //grow_branch_and_children(&( Tree::root_branch ), factor);
 }

@@ -7,6 +7,7 @@ class Branch {
     float height_growth_rate;
     float width_growth_rate;
     float growth_level;
+    float next_child_buffer;
     float angle;
     float placement;
     std::vector<Branch*> children;
