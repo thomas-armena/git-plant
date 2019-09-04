@@ -6,6 +6,10 @@
 #include <random>
 #include <stdlib.h>
 
+float get_random_float(){
+    return static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+}
+
 Branch::Branch(float height_growth_rate, float width_growth_rate, float angle, float placement){
     Branch::height_growth_rate = height_growth_rate;
     Branch::width_growth_rate = width_growth_rate;
@@ -16,10 +20,10 @@ Branch::Branch(float height_growth_rate, float width_growth_rate, float angle, f
 }
 
 Branch::Branch(){
-    Branch::height_growth_rate = 1;
-    Branch::width_growth_rate = 0.2;
+    Branch::height_growth_rate = 0.25;
+    Branch::width_growth_rate = 0.05;
     Branch::growth_level = 0;
-    Branch::angle = 0;
+    Branch::angle = (get_random_float()-0.5) / 2;
     Branch::placement = 0;
 }
 
@@ -57,7 +61,6 @@ int Branch::get_width(){
 
 void Branch::grow(float factor){
     Branch::growth_level += factor;
-    std::cout << "growth_level:" << Branch::growth_level << std::endl;
 
     for(int i = 0; i < Branch::children.size(); i++){
         children[i]->grow(factor);
@@ -67,12 +70,10 @@ void Branch::grow(float factor){
     if (Branch::next_child_buffer <= 0) {
         float remainder = -next_child_buffer;
 
-
-
-        float a = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-        float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-        float c = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-        float d = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+        float a = get_random_float();
+        float b = get_random_float();
+        float c = get_random_float();
+        float d = get_random_float();
 
         Branch * new_child  = new Branch( 
             Branch::height_growth_rate * a,

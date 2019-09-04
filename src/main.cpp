@@ -3,6 +3,7 @@
 #include "Branch.h"
 #include "Canvas.h"
 #include <cmath>
+#include <ctime>
 #include <stdlib.h>
 
 void test_angles(){
@@ -13,15 +14,16 @@ void test_angles(){
         Branch branch (10, 0, 0, 0);
         canvas.draw_branch(25, 25, angle, branch);
         canvas.print();
-        angle += M_PI / 16;
+        angle -= M_PI / 16;
     }
 }
 
 int main(){
-     srand(100);
+
+    srand((unsigned)time(0));
     
-    Canvas canvas (50, 50);
-    Branch root_branch (0.5, 0.05, 0, 0);
+    Canvas canvas (200, 100);
+    Branch root_branch;
     Tree tree(root_branch);
 
     while(true){

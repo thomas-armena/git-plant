@@ -28,9 +28,42 @@ int normalize_height(float slope, int height){
     return int(std::round(height + ( height ) * a));
 }
 
-char get_pixel(float slope) {
-    if (std::abs( slope > 1)) return '.';
-    else return ':';
+char get_pixel(float angle, int height) {
+    if (height < 4) return 'x';
+    int section = (int)((angle - M_PI / 12) / M_PI * 6);
+    if ( section < 0 ) {
+        section = 11 + section;
+    }
+    switch(section){
+        case 0:
+            return '|';
+        case 1:
+            return '/';
+        case 2:
+            return '_';
+        case 3:
+            return '\\';
+        case 4:
+            return '\\';
+        case 5:
+            return '|';
+        case 6:
+            return '/';
+        case 7:
+            return '/';
+        case 8:
+            return '_';
+        case 9:
+            return '\\';
+        case 10:
+            return '|';
+        case 11:
+            return '|';
+        default:
+            return 'x';
+    }
+
+    
 }
 
 Canvas::Canvas(int width, int height) {
@@ -56,10 +89,9 @@ void Canvas::draw_branch (int x, int y, float curr_angle, Branch branch){
         deltaY_multiplier = -1;
     }
     float slope = std::tan(angle);
-    std::cout << branch.get_height() << std::endl;
     int width = normalize_width(slope, branch.get_width());
     int height = normalize_height(slope, branch.get_height());
-    char pixel = get_pixel(slope);
+    char pixel = get_pixel(angle, branch.get_height());
 
     float currX = x;
     float currY = y;
